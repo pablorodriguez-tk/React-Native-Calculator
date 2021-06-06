@@ -49,8 +49,17 @@ export const CalculatorScreen = () => {
     }
   };
 
-  const btnDelete = () => {};
-
+  const btnDelete = () => {
+    if (
+      number.length === 1 ||
+      (number.length === 2 && number.startsWith('-'))
+    ) {
+      setNumber('0');
+    } else {
+      setNumber(number.slice(0, -1));
+    }
+  };
+  console.log(number.length);
   return (
     <View style={styles.calculatorContainer}>
       <Text style={styles.smallResult}>{previousNumber}</Text>
