@@ -12,8 +12,44 @@ export const CalculatorScreen = () => {
   };
 
   const buildNumber = (textNumber: string) => {
+    //does not accept double zero
+    if (number.includes('.') && textNumber === '.') {
+      return;
+    }
+
+    if (number.startsWith('0') || number.startsWith('-0')) {
+      // decimal point
+      if (textNumber === '.') {
+        return setNumber(number + textNumber);
+      }
+
+      // evaluate if it is another zero and there is a point
+      if (textNumber === '0' && number.includes('.')) {
+        return setNumber(number + textNumber);
+      }
+
+      // evaluate if it is different from zero and does not have a point
+      if (textNumber !== '0' && !number.includes('.')) {
+        return setNumber(textNumber);
+      }
+
+      // Avoid 0000.0
+      if (textNumber === '0' && !number.includes('.')) {
+        return setNumber(number);
+      }
+    }
     setNumber(number + textNumber);
   };
+
+  const positiveNegative = () => {
+    if (number.includes('-')) {
+      setNumber(number.replace('-', ''));
+    } else {
+      setNumber('-' + number);
+    }
+  };
+
+  const btnDelete = () => {};
 
   return (
     <View style={styles.calculatorContainer}>
@@ -24,8 +60,8 @@ export const CalculatorScreen = () => {
       {/* button row */}
       <View style={styles.row}>
         <ButtonCalc text="C" color="#9B9B9B" action={clean} />
-        <ButtonCalc text="+/-" color="#9B9B9B" action={clean} />
-        <ButtonCalc text="del" color="#9B9B9B" action={clean} />
+        <ButtonCalc text="+/-" color="#9B9B9B" action={positiveNegative} />
+        <ButtonCalc text="del" color="#9B9B9B" action={btnDelete} />
         <ButtonCalc text="/" color="#FF9427" action={clean} />
       </View>
       {/* button row */}
